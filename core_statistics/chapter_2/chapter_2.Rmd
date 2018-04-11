@@ -1,0 +1,17 @@
+---
+title: "Chapter 2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Statistical Models and Inference
+
+This document contains some of the more useful notes from Chapter 2.
+
+Good ole' Bayes' Theorem:
+
+$$f(x|y) = \frac{f(y|x)f(x)}{f(y)}.$$
+

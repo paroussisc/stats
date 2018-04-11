@@ -1,5 +1,5 @@
 ---
-title: "chapter_1"
+title: "Chapter 1"
 output: html_document
 ---
 
@@ -7,22 +7,65 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Random Variables
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+This document contains some of the more useful notes from Chapter 1.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Good ole' Bayes' Theorem:
 
-```{r cars}
-summary(cars)
-```
+$$f(x|y) = \frac{f(y|x)f(x)}{f(y)}.$$
+Covariance of a linear transformation:
 
-## Including Plots
+$$\Sigma_{Ax + b} = A \Sigma A^T.$$
+Vector transformation:
 
-You can also embed plots, for example:
+$$a^T X \sim N(a^T \mu,a^T \Sigma a).$$
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+Multivariate Normal conditional distributions:
+
+$$X|z \sim N(\mu_x + \Sigma_{xz}\Sigma_z^{-1}(z - \mu_z), \Sigma_x - \Sigma_{xz}\Sigma_z^{-1}\Sigma_{zx})$$
+
+for partitioned covariance matrix ($\Sigma_{zx}$  top-right, $\Sigma_{xz}$ bottom-left).
+
+Transformation of random variables:
+
+$$f_x(x) = f_z\{g^{-1}(x)\}|\textbf{J}|$$
+for Jacobian $\textbf{J}$ ($J_{ij} = \partial z_i/\partial x_j$).
+
+## Central Limit Theorem:
+
+Consider i.i.d random variables $X_1,X_2,X_3,..,X_n$ with mean $\mu$ and variance $\sigma^2$. Let $\hat{X_n} = \sum X_i / n$ the CLT says that in the limit $n \to\infty$:
+
+$$\hat{X_n} \sim N(\mu, \sigma^2/n),$$
+which generalises to multivariate and non-identical distribution settings.
+
+## Law of Large Numbers
+
+Chebychev's inequality
+
+if $X$ is a random variable and $E(X^2) < \infty$
+$$\Pr(|X| \geq a) \leq \frac{E(X^2)}{a^2},$$
+the proof is pretty straightforward.
+
+Strong law of large numbers:
+
+$$\Pr(\lim_{n\to\infty}|\hat{X_n} - \mu| < \epsilon) = 1$$
+($\hat{X_n}$ converges to $\mu$ almost surely).
+
+Weak law of large numbers:
+
+$$\lim_{n\to\infty}\Pr(|\hat{X_n} - \mu| \geq \epsilon) = 0$$
+($\hat{X_n}$ converges in probability to $\mu$).
+
+## Jensen's Inequality
+
+For any random variable $X$ and concave function $c$:
+$$c(E(X)) \geq E(c(X)),$$
+which is useful for much of the proceeding likelihood theory, since we work with log-likelihood and log is a concave function.
+
+
+

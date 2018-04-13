@@ -11,7 +11,53 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This document contains some of the more useful notes from Chapter 2.
 
-Good ole' Bayes' Theorem:
+Random effects:
 
-$$f(x|y) = \frac{f(y|x)f(x)}{f(y)}.$$
+Random variables in a model that are not associated with the independent random variability of single observations, are termed random effects. It allows us to decompose randomness into multiple components, most commonly introducing individual variability in the model in a way similar to Bayesian hierarchical modelling. When the pdfs can't be written down in closed form, we use the fact that the $f(y|b)$ are independent, which we exploit when calculating the likelihood using $f(y, b) = f(y | b)f(b).$
+
+We usually need to integrate out the random effects, which we can do using stochastic simulation or (Laplace) approximation.
+
+Inferential questions:
+
+* What values for $\theta$ are most consistent with $y$? (point estimation)
+* Is some prespecified restriction on $\theta$ consistent with $y$? (hypothesis testing)
+* What ranges of values of $\theta$ are consistent with $y$? (interval estimation)
+* Is the model consistent with the data for any values of $\theta$ at all? (model checking)
+
+Point estimation:
+
+MLE is unbiased and achieves the Cramer-Rao lower bound of the variance.
+
+Likelihood ratio:
+
+If comparing restrictions on $\theta$, then the parameter vector that maximised the likelihood within said restriction is the one that is used for the likelihood ratio test.
+
+In general, for testing the null hypothesis that $\theta$ is restricted vs unrestricted we can use the fact that given some regularity conditions, in the large same limit (see Chapter 4) we have:
+
+$$2\{\log(f_{\hat{\theta}}(y))-\log(f_{\hat{\theta_0}}(y))\}\sim \chi^2_r$$
+for $r$ restrictions on $\theta$.
+
+In general for $p$-values: $p$ is the probability of obtaining a test statistic at least as favourable to \textbf{$H_1$} as that observed, if \textbf{$H_0$} is true.
+
+The Neyman-Pearson Lemma states that the likelihood ratio test is the most powerful (best at correctly rejecting null hypothesis) test possible.
+
+Model checking:
+
+* qq-plots to check theoretical quantiles vs observed quantiles of marginal distribution of elements of $y$.
+* Standardised residuals should appear independent with constant variance if the model is "correct".
+
+K-L divergence is the expected difference in the log likelihood ratio between the true model and the model under construction - gets used to derive AIC and cross-validation score.
+
+Bayesian methods use BIC and DIC. BIC has troubles since it is not always clear how to count the number of free parameters, as well as BIC's dependence on knowledge of posterior nodes, which are not directly accessible via simulation. DIC uses effective degrees of freedom and overcomes this, however its use cannot be justified if effective number of parameters is not small compared to the number of data in $y$.
+
+
+
+
+
+
+
+
+
+
+
 

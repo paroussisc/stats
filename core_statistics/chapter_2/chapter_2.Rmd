@@ -11,13 +11,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This document contains some of the more useful notes from Chapter 2.
 
-#Random effects:
+# Random effects:
 
 Random variables in a model that are not associated with the independent random variability of single observations, are termed random effects. It allows us to decompose randomness into multiple components, most commonly introducing individual variability in the model in a way similar to Bayesian hierarchical modelling. When the pdfs can't be written down in closed form, we use the fact that the $f(y|b)$ are independent, which we exploit when calculating the likelihood using $f(y, b) = f(y | b)f(b).$
 
 We usually need to integrate out the random effects, which we can do using stochastic simulation or (Laplace) approximation.
 
-#Inferential questions:
+# Inferential questions:
 
 * What values for $\theta$ are most consistent with $y$? (point estimation)
 * Is some prespecified restriction on $\theta$ consistent with $y$? (hypothesis testing)

@@ -50,7 +50,7 @@ K-L divergence is the expected difference in the log likelihood ratio between th
 
 Bayesian methods use BIC and DIC. BIC has troubles since it is not always clear how to count the number of free parameters, as well as BIC's dependence on knowledge of posterior nodes, which are not directly accessible via simulation. DIC uses effective degrees of freedom and overcomes this, however its use cannot be justified if effective number of parameters is not small compared to the number of data in $y$.
 
-#Useful single-parameter normal results
+# Useful single-parameter normal results
 
 If we know $\hat{\theta} \sim N(\theta, \sigma_\theta)$, where $\sigma_\theta$ is known but $\theta$ is not, we can test $H_0$:$\theta=\theta_0$ vs $H_1$:$\theta\neq \theta_0$ with the test statistic:
 

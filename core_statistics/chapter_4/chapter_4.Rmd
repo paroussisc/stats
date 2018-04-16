@@ -1,0 +1,55 @@
+---
+title: "Chapter 4"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Theory of maximum likelihood estimation
+
+This document contains some of the more useful notes from Chapter 4.
+
+# Properties of the expected log likelihood:
+
+Recall $l(\theta) = \log(f_\theta(y))$, and let $\theta_t$ be the vector of true parameter values.
+
+1.$$E(\frac{\delta l}{\delta\theta}\big{|}_{\theta_t}) = 0.$$
+2.$$cov(\frac{\delta l}{\delta\theta}\big{|}_{\theta_t}) = E(\frac{\delta l}{\delta\theta}\big{|}_{\theta_t}\frac{\delta l}{\delta\theta^T}\big{|}_{\theta_t}).$$
+3.$$\mathcal{I} = E(\frac{\delta l}{\delta\theta}\big{|}_{\theta_t}\frac{\delta l}{\delta\theta^T}\big{|}_{\theta_t}) = -E(\frac{\delta^2l}{\delta\theta\delta\theta^T}\big{|}_{\theta_t}) \label{three}.$$
+
+$\mathcal{I}$ is known as the Fisher information matrix. The likelihood containing lots of information about $\theta$ will be sharpy peaked (large magnitude eigenvalues), whereas a less informative likelihood will be less sharply peaked.
+
+4. The expected log likelihood has a global maximum at $\theta_t$. i.e. $$E\{l(\theta_t)\} \geq E\{l(\theta)\} \forall \theta.$$
+5. The Cramer-Rao lower bound - $\mathcal{I}^{-1}$ provides a lower bound on the variance matrix of any unbiased estimator $\hat{\theta}$, in the sense that $cov(\theta) - \mathcal{I}$ is positive semi definite.
+
+# Consistency of MLE
+
+Usually as the sample size tends to infinity, $\hat{\theta}$ tends to $\theta_t$. This isn't the case in situations where the information per parameter is not gaining with the increased sample size (such as when the number of parameters is growing).
+
+# Large sample distribution of MLE
+
+In the large sample limit $E(\hat{\theta}-\theta_t) = 0$ and $var(\hat{\theta}-\theta_t) = \mathcal{I}^{-1}$, so they are unbiased and achieve the Camer-Rao lower bound. In the large sample limit in which the likelihood is based on independent observations, we have:
+
+$$\hat{\theta} \sim N(\theta_t, \mathcal{I}^{-1}).$$
+When the likelihood is not based on independent observations, $\frac{\delta l}{\delta\theta}$ has a limiting normal distribution so the above still holds. The expected information needs to icnrease without limit with increasing sample size. Achievement of the Cramer-Rao lower bound does not depend on normality.
+
+# Regularity conditions
+
+The preceeding results depend on some assumptions.
+
+1. The parameters $\theta$ are identifiable.
+2. $\theta_t$ is interior to the space of possible parameter values.
+3. WIthin some neighbourhood of $\theta_t$, the first three derivatives of the log-likelihood exist and are bounded, $\mathcal{I}$ satisfies property 3, above.
+
+
+
+
+
+
+
+
+
+
+

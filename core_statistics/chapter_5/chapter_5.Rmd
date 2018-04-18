@@ -1,0 +1,52 @@
+---
+title: "Chapter 5"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Numerical maximum likelihood estimation
+
+This document contains some of the more useful notes from Chapter 5.
+
+# Numerical methods
+
+* Newton's method is guaranteed to find a local minimum.
+* If the Hessian is difficult to evaluate or the dimension of $\theta$ is large (and so solving for the Newton direction is costly), Quasi-Newton methods are used instead (like BFGS).
+* Can work on an approximation of the inverse of the Hessian, which saves calculation time.
+* Uses the Wolfe conditions for stepping along - the first seeks to ensure that the step results in a decrease that is
+reasonable relative to the gradient of $f$ in the direction of $\delta$ and guards
+against overly long steps. The second says that there should have been a
+sufficient decrease in the gradient of the function along $\delta$ (otherwise why
+not take a longer step, given that the function is still decreasing fast in
+this direction).
+* The converged inverse Hessian may
+be a poor representation of the shape of $f$ in directions that the BFGS
+iteration has not explored recently.
+* If calculation of the gradient is too taxing or the objective function is not smooth enough, the Nelder-Mead polytope method can be used instead.
+* Quite slow if you need to know the optimum very accurately.
+* Basically the Nelder-Mead method is good if the answer does not
+need to be too accurate and derivatives are hard to come by.
+
+# MLE with random effects
+
+The likelihood is the marginal density of the data evaluated at the observed data values:
+
+$$L(\theta) = f_{\theta}(\textbf{y}) = \int f_{\theta}(\textbf{y}, \textbf{b})d\textbf{b},$$
+which is usually analytically intractable. Two methods to overcome this are Laplace approximation and the EM algorithm (and a combination of the two).
+
+The Laplace approximation is as follows:
+
+$$\int f_{\theta}(\textbf{y}, \textbf{b})d\textbf{b} = f(\textbf{y}, \hat{\textbf{b}_y})\frac{(2\pi)^{n_b/2}}{|\textbf{H}|^{1/2}},$$
+
+where $\hat{\textbf{b}_y}$ is the value of $\textbf{b}$ maximising $f(\textbf{y},\textbf{b})$ and where $\textbf{H}$ is the negative Hessian of $f(\textbf{y},\hat{\textbf{b}_y})$. The approximation error is $O(n^{-1})$, where $n$ is the sample size. This reduces the problem from calculating the integral to calculating the Hessian and maximum likelihood value of $b$.
+
+* This approximation is a normal approximation of the marginal likelihood, so works best when the posterior has a single mode and is similar to a Gaussian.
+* To deal with multi-modality, use a variety of starting values or bootstrap the data.
+
+For the EM algorithm, consult page 105 of the book. EM algorithm with Laplace approximation can be much more accurate than just simple Laplace approximation, with error $O(n^{-2})$.
+
+
+

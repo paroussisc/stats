@@ -1,0 +1,36 @@
+---
+title: "Chapter 6"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Bayesian Computation
+
+This document contains some of the more useful notes from Chapter 6.
+
+# Markov chain Monte Carlo
+
+* Markov chain Monte Carlo (MCMC) methods simulate (correlated)
+samples from the distribution of the model unknowns (parameters and any
+random effects), given the data
+* Useful when dealing with multi-modal distributions
+
+Metropolis-Hastings algorithm:
+
+1) Pick a proposal distribution $q(θ_j|θ_{j−1})$ (e.g. a normal centred on $θ_{j−1}$).
+Then pick a value $θ_0$, set $j = 1$ and iterate steps 2 and 3:
+2) Generate $θ_j$ from $q(θ_j|θ_{j−1})$.
+3) Set $\theta_j = \theta^\prime_j$ with probability:
+$$\alpha = \min\{1, \frac{f(y|\theta^\prime_j)f(\theta^\prime_j)q(θ_{j-1}|θ^\prime_{j})}{f(y|\theta^\prime_{j-1})f(\theta^\prime_{j-1})q(θ^\prime_{j}|θ_{j-1})},$$
+otherwise setting $\theta_j = \theta_{j-1}$. Increment $j$. Note that the q terms cancel if q depends only on the magnitude of $θ_j −θ_{j−1}$ (e.g. if $q$ is a normal centred on $θ_{j−1}$). If the prior densities are improper uniform, then we just choose based on the likelihood ratio since the other terms cancel out.
+
+* For large parameter dimensions, Gibbs sampling may be used to sample components of the parameter vector, based on the most recently sampled parameter values. Gibbs sample can be used for conditional sampling - sample some parameters first and those conditional on these.
+* Gibbs sampling produces slowly moving chains if parameters have high posterior correlation, because sampling from the conditionals then produces very small steps.
+* Random effects are treated as parameters in the Bayesian simulation approach.
+* Check for convergence using trace plots, autocorrelation plots, chain interval plots. Also splitting the chain and performing tests on whether the subsections come from the same distribution.
+* DIC isn't a bad way to compare MCMC models.
+* Covariance structure can be exploited with the proposal distribution to avoid slow mixing.
+

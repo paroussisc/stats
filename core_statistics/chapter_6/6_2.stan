@@ -12,3 +12,7 @@ model {
   for (n in 1:N) 
     y[n] ~ student_t(alpha, mu, sigma);
 }
+generated quantities{
+  real y_pred;
+  y_pred = student_t_rng(alpha, mu, sigma);
+}

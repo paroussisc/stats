@@ -33,13 +33,6 @@ fit <-
 fisher <- solve(fit$hessian)
 p_ci <- fit$par[1] + c(-1, 1) * sqrt(fisher[1, 1])
 
-# not identifiable - very sensitive to starting values
-# now simulate some values
-rdnorm <- function(n, omega, mu1, sigma1, mu2, sigma2)
-{
-  return(omega * rnorm(n, mu1, sigma1) + (1 - omega) * rnorm(n, mu2, sigma2))
-}
-
 pars <- fit$par
 n <- length(geyser$waiting)
 p <- rbinom(n, 1, pars[1])
@@ -48,8 +41,8 @@ rs <-
 
 # This example seems to fit quite well - unless a large sample of simulations, in which case
 # it is not smooth enough betwen distributions
+dat <- data.frame(x = sort(rs$y), y = sort(geyser$waiting))
 ggplot() + geom_density(data = rs, aes(y), color = "red")  + geom_density(data = dat, aes(y), color = "blue")
 
 # QQplot seems OK - all this sensitive to initial estimates though.
-dat <- data.frame(x = sort(rs$y), y = sort(geyser$waiting))
 ggplot() + geom_point(data = dat, aes(x, y), color = "red") + geom_abline()

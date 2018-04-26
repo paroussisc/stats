@@ -14,7 +14,7 @@ transformed parameters {
   n[1] = log(10);
   for (i in 2:N) 
   {  
-    n[i] = r+ n[i-1] + (-exp(n[i-1])/K + e_t[i-1]);
+    n[i] = r + n[i-1] + (-exp(n[i-1])/K + e_t[i-1]);
   }
   
   NN = exp(n);

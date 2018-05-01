@@ -25,8 +25,21 @@ setwd("~/workspace/stats/core_statistics/chapter_6")
 rstan_options(auto_write = FALSE)
 options(mc.cores = parallel::detectCores())
 
-# Seems to recover the parameters
-fit <- stan(file = '6_6.stan', data = list(y=y, N=length(y)),
-            iter = 10000, chains = 4)
+# Needs more work
+fit <- stan(file = '6_5.stan', data = list(y=y, N=size),
+            iter = 1000, chains = 4)
 fit
+
+# CIs on params
+plot(
+  fit$,
+  show_density = TRUE,
+  ci_level = 0.95,
+  fill_color = "purple"
+)
+
+# chains look to have converged
+traceplot(fit, "K")
+traceplot(fit, "r")
+traceplot(fit, "sig_e")
 

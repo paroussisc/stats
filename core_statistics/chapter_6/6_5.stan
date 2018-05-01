@@ -9,17 +9,17 @@ parameters {
   real<lower=0> sig_e;
 } 
 transformed parameters {
-  real n[N];
-  real NN[N];
-  n[1] = log(10);
+  real log_n[N];
+  real N_t[N];
+  log_n[1] = log(10);
   for (i in 2:N) 
   {  
-    n[i] = r + n[i-1] + (-exp(n[i-1])/K + e_t[i-1]);
+    log_n[i] = r + log_n[i-1] + (-exp(log_n[i-1])/K + e_t[i-1]);
   }
   
-  NN = exp(n);
+  N_t = exp(log_n);
 }
 model {
   e_t ~ normal(0, sig_e);
-  y ~ poisson(NN);
+  y ~ poisson(N_t);
 }

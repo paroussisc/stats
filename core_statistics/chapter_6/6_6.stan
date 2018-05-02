@@ -1,25 +1,24 @@
 data { 
   int<lower=0> N;
-  int y[N];
+  real waiting[N];
 } 
 parameters {
-  vector[N] e_t;
-  real<lower=0> K;
-  real<lower=0> r;
-  real<lower=0> sig_e;
+  real<lower=0, upper=1> phi;
+  real<lower=0> mu1;
+  real<lower=0> sig1;
+  real<lower=0> mu2;
+  real<lower=0> sig2;
 } 
-transformed parameters {
-  real n[N];
-  real NN[N];
-  n[1] = log(10);
-  for (i in 2:N) 
-  {  
-    n[i] = r + n[i-1] + (-exp(n[i-1])/K + e_t[i-1]);
-  }
-  
-  NN = exp(n);
-}
 model {
-  e_t ~ normal(0, sig_e);
-  y ~ poisson(NN);
+  // weak priors
+  phi ~ normal(0.3,0.1);
+  mu1 ~ normal(55,5);
+  sig1 ~ normal(0.3,1);
+  mu2 ~ normal(85,5);
+  sig2 ~ normal(0.3,1);
+  for (n in 1:N)
+  {
+    target += log(phi / sqrt(2* pi() * sig1^2) * exp(-0.5 * ((waiting[n] - mu1)/sig1)^2)
+            + (1-phi) / sqrt(2* pi() * sig2^2) * exp(-0.5 * ((waiting[n] - mu2)/sig2)^2));
+  }
 }

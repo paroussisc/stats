@@ -9,8 +9,6 @@ setwd("~/workspace/stats/core_statistics/chapter_6")
 rstan_options(auto_write = FALSE)
 options(mc.cores = parallel::detectCores())
 
-
-# Scale inputs? Check why some threads error - could be my dodgy theta manipulation
 fit <-
   stan(
     file = '6_4.stan',

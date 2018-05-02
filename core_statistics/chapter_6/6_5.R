@@ -32,7 +32,7 @@ fit
 
 # CIs on params
 plot(
-  fit$,
+  fit,
   show_density = TRUE,
   ci_level = 0.95,
   fill_color = "purple"

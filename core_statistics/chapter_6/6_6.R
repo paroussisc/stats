@@ -68,9 +68,16 @@ plot(
 
 ## Look at posterior samples
 w_pred <- extract(fit_ext, 'w_pred')
-w_pred <- unlist(w_pred, use.names=FALSE)
+w_pred <- unlist(w_pred, use.names = FALSE)
 d_pred <- extract(fit_ext, 'd_pred')
-d_pred <- unlist(d_pred, use.names=FALSE)
+d_pred <- unlist(d_pred, use.names = FALSE)
 pred <- data.frame(waiting = w_pred, duration = d_pred)
 
-ggplot() + geom_point(data = pred, aes(x = waiting, y = duration, color = 'red')) + geom_point(aes(x = geyser$waiting, y = geyser$duration, color = 'blue'))
+ggplot() + geom_point(data = pred, aes(x = waiting, y = duration, color = 'preds')) + geom_point(aes(
+  x = geyser$waiting,
+  y = geyser$duration,
+  color = 'actual'
+))
+
+## Need to fix the identifiability issues still - look at stronger priors
+## String priors on duration means first

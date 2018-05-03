@@ -11,28 +11,23 @@ ll <- function(theta)
   return (allo_lik + allo_cens_lik)
 }
 
+llf <- function(theta)
+{
+  return(2*(mll_z - ll(theta)) - qchisq(0.95,1))
+}
+
 # ggplot contour
 thetas <- seq(0.00001, 0.001, 0.00001)
 df.lik <- setNames(expand.grid(thetas), c('theta'))
 vfun1 <- Vectorize(ll, SIMPLIFY = TRUE)
 
 df.lik$z <- vfun1(df.lik$theta)
-p <-
-  ggplot(df.lik, aes(theta, z = z)) + geom_point(aes(x = theta, y = z))
-p
+ggplot(df.lik, aes(theta, z = z)) + geom_point(aes(x = theta, y = z))
 
 # max
 mll <- df.lik[52, ]$theta
 mll_z <- df.lik[52, ]$z
 
-llf <- function(theta)
-{
-  return(2*(mll_z - ll(theta)) - qchisq(0.95,1))
-}
-
 # CI - generalised likelihood ratio test
 uniroot(llf,c(.000000001,mll))$root # lower
 uniroot(llf,c(mll,1))$root # upper
-
-# CI  - normal approx
-mll * (1 + c(-1, 1) * 1.96 / sqrt(11))

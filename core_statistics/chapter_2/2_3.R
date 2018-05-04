@@ -11,12 +11,8 @@ ll <- function(mu, sigma, y)
 # ggplot contour
 mus <- seq(30,70, 0.1)
 sigs <- seq(0.1,15,0.1)
-
-# apply(expand.grid(mus, sigs), 1, function(x){ll(x[1], x[2], y = nhtemp)}) - try using apply
 df.lik <- setNames(expand.grid(mus, sigs), c('mu', 'sigma')) 
 vfun1 <- Vectorize(ll, SIMPLIFY = TRUE)
 
-df.lik$z <- vfun1(df.lik$mu,df.lik$sigma, nhtemp)       
+df.lik$z  <- apply(df.lik, 1, function(x){ll(x[1], x[2], y = nhtemp)})
 ggplot(df.lik, aes(mu, sigma, z=z)) + stat_contour(aes(colour = ..level..))
-
-

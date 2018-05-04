@@ -15,4 +15,4 @@ df.lik <- setNames(expand.grid(mus, sigs), c('mu', 'sigma'))
 vfun1 <- Vectorize(ll, SIMPLIFY = TRUE)
 
 df.lik$z  <- apply(df.lik, 1, function(x){ll(x[1], x[2], y = nhtemp)})
-ggplot(df.lik, aes(mu, sigma, z=z)) + stat_contour(aes(colour = ..level..))
+ggplot(df.lik, aes(mu, sigma, z=z)) + stat_contour(bins = 30, aes(colour = ..level..))

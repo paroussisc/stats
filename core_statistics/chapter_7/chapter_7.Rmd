@@ -22,3 +22,11 @@ $$y = x\beta + \epsilon$$
 - Variance of the residuals $\epsilon$ is $(I - A)\sigma^2$. Distribution of residuals is degenerate normal.
 - Residuals can be standardised to have constant variance if the model is correct.
 - In practice some parameters get zero'd for identifiability reasons.
+
+# Model checking
+
+- Plot residuals vs predictors.
+- Examine serial correlation.
+- Standardised residuals should be $N(0,1)$ distributed if the model is correct.
+- Estimators aren't usually independent so normally the terms with the highest $p$-value are dropped one at a time.
+- `anova` automates model selection by comparing F-ratios or dropping out terms of a single model.

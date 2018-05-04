@@ -1,0 +1,23 @@
+---
+title: "Chapter 7"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Linear Models
+
+Linear models avoid approximation seen in MLE (large sample approximations) and Stochastic simulation/Laplace approximation in the Bayesian setting.
+
+$$y = x\beta + \epsilon$$
+
+- Elements of $\epsilon$ assumed to be independent with constant variance $\sigma^2$.
+- $\epsilon$ are assumed Gaussian when constructing confidence intervals and testing hypotheses.
+- Least squares used to estimate $\beta$.
+- $t$-statistic used to test single parameters, F-Ratio test for multiple.
+- Trace of influence matrix is the number of identifiable parameters.
+- Variance of the mean, $\mu$ is $A\sigma^2$ where $A$ is the influence matrix ($\sigma^2 being the variance of $y$, the observations).
+- Variance of the residuals $\epsilon$ is $(I - A)\sigma^2$. Distribution of residuals is degenerate normal.
+- Residuals can be standardised to have constant variance if the model is correct.

@@ -21,3 +21,4 @@ $$y = x\beta + \epsilon$$
 - Variance of the mean, $\mu$ is $A\sigma^2$ where $A$ is the influence matrix ($\sigma^2 being the variance of $y$, the observations).
 - Variance of the residuals $\epsilon$ is $(I - A)\sigma^2$. Distribution of residuals is degenerate normal.
 - Residuals can be standardised to have constant variance if the model is correct.
+- In practice some parameters get zero'd for identifiability reasons.

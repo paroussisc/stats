@@ -1,0 +1,12 @@
+---
+title: "Chapter 1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Random Variables
+
+This document contains my takes from Chapter 1.

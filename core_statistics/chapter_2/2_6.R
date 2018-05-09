@@ -1,4 +1,4 @@
-############# Solutions to question 2.5 #############
+############# Solutions to question 2.6 #############
 x <- rnorm(10) + 1
 
 # integrate params out of prior * likelihood to get marginal distribution of the model

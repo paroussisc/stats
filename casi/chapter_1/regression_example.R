@@ -18,8 +18,6 @@ ggplot(dat, aes(x = age, y = tot)) + geom_point() + geom_line(data = new_dat,
 
 # Lowess
 mod_l <- data.frame(lowess(dat$age, dat$tot, 1 / 3))
-ggplot(dat, aes(x = age, y = tot)) + geom_point()  + geom_line(data = mod_l, aes(x = x, y = y), color =
-                                                                 "red")
 
 # boostrap
 low_fun <- function(data, idx)

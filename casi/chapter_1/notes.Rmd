@@ -14,3 +14,5 @@ This document contains my takes from Chapter 1.
 # Algorithms and Inference
 
 Algorithms are what statisticians do, inference explains why they do it.
+
+The standard deviation of the empirical boostrap samples is an approximation to the standard error.

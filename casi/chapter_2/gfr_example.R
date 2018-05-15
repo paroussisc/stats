@@ -29,11 +29,12 @@ mean(dat$V1)
 sd(dat$V1 /sqrt(dim(dat)[1]))
 
 preds <- boot(dat, win_fun, 10000)
-winsor(preds$t)
+mean(preds$t)
 sd(preds$t)
 
 preds <- boot(dat, med_fun, 10000)
-median(preds$t)
+mean(preds$t)
 sd(preds$t)
+
 
 

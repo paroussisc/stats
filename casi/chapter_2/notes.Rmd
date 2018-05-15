@@ -11,8 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Frequentism in practice
 
-* The plug-in principle
-* Taylor-series approximations
-* Parametric families and maximum likelihood theory
+* The plug-in principle - use standard errors of the mean of the data
+* Taylor-series approximations - can get more complicated statistics for the plug-in principle using linear approximations
+* Parametric families and maximum likelihood theory - theoretical SE using MLE
 * Simulation and the bootstrap
-* Pivotal statistics
+* Pivotal statistics - a statistic whose distribution does not depend on the underlying distribution of the data (such two sample t-test)

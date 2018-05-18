@@ -9,4 +9,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Bayesian Inference
 
+- Jeffreys prior is invariant to parameter transformation
 
+# A Bayesian/Frequentist Comparison List
+
+- Choice of prior vs choice of method/algorithm
+- Flexibility of frequentism works well with modern data analysis problems since it deals with specific algorithms
+- Only a single distribution needed when working in a Bayesian framework and it answers all the questions at once, compared to a frequentist approach where different estimators for different questions
+- Simplicity is appealing in dynamic contexts where data is arriving sequentially. Bayes' theorem is a useful tool for combining different statistical evidence from disparate sources
+- Classical frequentism can be argued to be the most scientifically objective
+- Computer-age statistical inference at its most successful combines elements of the two philosophies

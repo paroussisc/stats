@@ -22,7 +22,7 @@ mod_l <- data.frame(lowess(dat$age, dat$tot, 1 / 3))
 # boostrap
 low_fun <- function(data, idx)
 {
-  dat <- data[idx, ]
+  dat <- data[idx,]
   mod_l <- data.frame(lowess(dat$age, dat$tot, 1 / 3))
   return((mod_l$y))
 }
@@ -35,7 +35,7 @@ d <-
 
 ggplot(dat, aes(x = age, y = tot)) + geom_point() + geom_line(data = d,
                                                               aes(x = age, y = tot),
-                                                              color = "red") +  geom_errorbar(data = d[seq(1, 157, 15), ],
+                                                              color = "red") +  geom_errorbar(data = d[seq(1, 157, 15),],
                                                                                               aes(
                                                                                                 x = age,
                                                                                                 ymin = tot - sd,

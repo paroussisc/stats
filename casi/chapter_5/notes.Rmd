@@ -1,0 +1,19 @@
+---
+title: "Chapter 4"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Parametric Models and Exponential Families
+
+# Fisher's Information Bound for Multiparameter families
+
+- Multivariate normal used as a large-sample approximation of maximum likelihood estimates
+- The Fisher information matrix, $I_\mu$, is the covariance of the gradient of the log likelihood
+- A key result is that the MLE $\hat{\mu}$ has approximate normal distribution with covariance $I^{-1}_\mu$. This is justified by large sample arguments
+- The variance of the MLE always increases with nuisance parameters
+- Exponential families are useful because, no matter how large the sample gets, all the inferential information can be compressed into a single vector $\bar{y}$
+- 

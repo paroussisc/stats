@@ -8,3 +8,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Fisherian Inference and Maximum Likelihood Estimation
+
+# MLE Algorithm
+
+- It is automatic: a single algorithm produces $\hat{\mu}$ without further statistical input
+- Excellent frequentist properties: in large sample situations the MLE is almost unbiased with the least possible variance. In small samples the performance is efficient, usually within a few percent of the best possible performance
+- Bayesian justification: MLE estimate $\hat{\mu}$ is the maximiser of the posterior density if the prior is flat
+- It is dangerous to rely on MLE for problems involving a large number of parameters - individual components may be estimated well by MLE but for the MLE of quantities $\hat{\theta}=T(\hat{\mu})$ of interest, it can be extremely misleading
+
+$$\hat{\theta} \sim N(\theta, I^{-1}_{\theta}),$$
+
+where $I_{\theta}$ is the Fisher information (the negative second derivative of the log likelihood).

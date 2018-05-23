@@ -19,7 +19,7 @@ robins <- function(x, f_x, f_x1)
 }
 
 
-#######################################################################
+#####################################################
 data <- c(7840, 1317, 239, 42, 14, 4, 4, 1)
 
 thetas <- rep(0, length(data))
@@ -36,7 +36,7 @@ for (i in 1:(length(data) - 1))
 print(thetas)
 
 # Try assumed gamma prior + marginal density
-par <- optim(c(1, 10), nll_gamma, data = data)$par
+par <- optim(c(1, 1), nll_gamma, data = data)$par
 thetas_g <- rep(0, length(data))
 fx <-
   marg_density(par, c(0, 1, 2, 3, 4, 5, 6, 7))
@@ -45,3 +45,16 @@ for (i in 1:(length(data) - 1))
 {
   thetas_g[i] <- robins(i - 1, fx[i], fx[i + 1])
 }
+
+print(thetas_g)
+
+y <-
+  data.frame(obs = 0:7,
+             count = log(data),
+             pred = log(sum(data) * fx))
+ggplot() + geom_point(data = y, aes(x = obs, y = count), color = 'blue') + geom_line(
+  data = y,
+  aes(x = obs, y = pred),
+  linetype = 'dashed',
+  color = 'red'
+)

@@ -1,0 +1,17 @@
+---
+title: "Chapter 6"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Empirical Bayes
+
+# Robbins' Formula
+
+- Used to estimate the prior from the data
+- Approximation to a fully Bayesian Hierarchical model, and is one approach to setting hyperparameters  
+- Poisson count data gives a nice recursive formula for $E(\theta|x)$ in the insurance claim example, using the marginal densities
+

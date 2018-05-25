@@ -14,4 +14,6 @@ knitr::opts_chunk$set(echo = TRUE)
 - Used to estimate the prior from the data
 - Approximation to a fully Bayesian Hierarchical model, and is one approach to setting hyperparameters  
 - Poisson count data gives a nice recursive formula for $E(\theta|x)$ in the insurance claim example, using the marginal densities
+- The prior can be parameterised still and the formula used as before, just with the parameterised marginal densities (which use the MLE parameters themselves)
+- The formula can be used for the "missing-species problem" as seen in 6.2
 

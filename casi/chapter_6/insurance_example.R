@@ -1,3 +1,5 @@
+library(ggplot2)
+
 marg_density <- function(pars, x)
 {
   v <- pars[1]

@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # James-Stein Estimator
 
+- Always achieves lower MSE than MLE as per the James-Stein Theorem for 3 or more unrelated parameters.
 - Empirical mean and standard deviation used for prior, then standard Bayesian update for Gaussians gives, for $\hat{M}$ empirical unbiased prior, $\hat{B}$ the unbiased posterior estimate of $B=\frac{A}{A+1}$ ($A$ being the prior standard deviation):
 
 $$\hat{\mu}^{JS}_i = \hat{M} + \hat{B}(x_i - \hat{M})$$ for $i=1, 2,..., N,$ or equivalently in vector form.

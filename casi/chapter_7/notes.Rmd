@@ -18,3 +18,10 @@ $$\hat{\mu}^{JS}_i = \hat{M} + \hat{B}(x_i - \hat{M})$$ for $i=1, 2,..., N,$ or 
 
 This is Empirical Bayes again. It won't perform as well as Bayes Rule but the increased risk (mean squared error) isn't that big.
 
+# Ridge regression
+
+- First we can standardise Linear Regression so that the columns of the model matrix have mean 0 and sum of squares 1, so that the coefficients are on the same scale.
+- Ridge Regression shrinks the coefficient vector $\hat{\beta}$.
+- It has Bayesian justificaiton - it's linear regression with an increased prior belief that the coefficients lie near 0.
+- Currently no optimality theory for shrinkage estimation.
+

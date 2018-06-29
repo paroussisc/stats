@@ -24,4 +24,5 @@ This is Empirical Bayes again. It won't perform as well as Bayes Rule but the in
 - Ridge Regression shrinks the coefficient vector $\hat{\beta}$.
 - It has Bayesian justificaiton - it's linear regression with an increased prior belief that the coefficients lie near 0.
 - Currently no optimality theory for shrinkage estimation.
+- Shrinkage estimators are not good for cases that are genuinely outstanding. Why should an estimate for one player go up or down depending on another? Direct vs indirect evidence is discussed more in Chapter 15.
 

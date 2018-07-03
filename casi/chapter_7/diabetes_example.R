@@ -23,7 +23,7 @@ ridge.mod <-
     lambda = seq(0, 0.25, 0.01),
     standardize = F
   )
-plot(ridge.mod)
+plot(ridge.mod, xvar = "lambda", label = TRUE)
 
 ridge.mod2 <-
   cv.glmnet(x,

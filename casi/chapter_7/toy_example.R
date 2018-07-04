@@ -1,34 +1,42 @@
 library(glmnet)
+library(broom)
+library(ggplot2)
+
+toy_data <- function(N, seed)
+{
+  set.seed(seed)
+  x <- data.frame(x1 = rep(0, N))
+  x$x1 <- runif(n = N)
+  x$x2 <- runif(n = N)
+  x$x3 <- x$x1 + runif(n = N)
+  x$x4 <- x$x2 + x$x3 + runif(n = N)
+  epsilon <- rnorm(n = N)
+  y <- x$x1 - x$x2 + epsilon
+  x$y <- y
+  
+  
+  # scale predictors
+  x_s <- data.frame(scale(x) / sqrt(nrow(x)))
+  x_s$y <- x$y - mean(x$y)
+  return(x_s)
+}
+
 
 # Simulate data
-set.seed(123)
-N <- 50
-
-x <- data.frame(x1 = rep(0, N))
-x$x1 <- runif(n = N)
-x$x2 <- runif(n = N)
-x$x3 <- 5 * x$x1 + runif(n = N)
-x$x4 <- 2 * x$x2 + x$x3 + runif(n = N)
-epsilon <- rnorm(n = N)
-y <- x$x1 + x$x2 + epsilon
-x$y <- y
+x_s <- toy_data(50, 123)
 
 ############  Linear regression  ###############
-mod0 <- lm(y ~ . - 1, data = x)
+mod0 <- lm(y ~ . - 1, data = x_s)
 
 # All predictors appear insignificant here
 summary(mod0)
 
-# Plots look OK:
-plot(mod0)
+# QQ plot isn't great:
+#plot(mod0)
 
 ############  Ridge regression  ###############
 
-# scale predictors
-x_s <- data.frame(scale(x) / sqrt(nrow(x)))
-x_s$y <- y - mean(y)
-
-x <- model.matrix(y ~ ., x_s)[,-1]
+x <- model.matrix(x_s$y ~ ., x_s)[,-1]
 
 ridge.mod <-
   glmnet(
@@ -39,8 +47,103 @@ ridge.mod <-
     standardize = F
   )
 
-plot(ridge.mod, xvar = "lambda", label = TRUE, )
+# The largest coefficients are x1 and x2, but this doesn't help completely with the
+# problem of variable selection - x3's coefficient isn't close enough to zero to ignore
+tidied_cv <- tidy(ridge.mod)
+ggplot() + geom_line(data = tidied_cv, aes(x = lambda, y = estimate, color = as.factor(term)))
 
-# Simulate new data (turn into function) and compare models
-# Do some inference first
-# DO the params seem significant with a good lambda? CV to optimise lambda?
+
+############  Lasso regression  ###############
+lasso.mod <-
+  glmnet(
+    x,
+    x_s$y,
+    alpha = 1,
+    lambda = seq(0, 0.05, 0.001),
+    standardize = F
+  )
+
+# very helpful with variable selection here - correctly identifies
+# that x3 and x4 are not as useful features
+tidied_cv <- tidy(lasso.mod)
+ggplot() + geom_line(data = tidied_cv, aes(x = lambda, y = estimate, color = as.factor(term)))
+
+
+############  Prediction  ###############
+
+# Linear model is better on our training data
+print(paste("MSE on linear model is:", mean(mod0$residuals ^ 2)))
+
+# Now get optimal lambda using cross-validation
+ridge.mod.cv <-
+  cv.glmnet(x,
+            x_s$y,
+            alpha = 0,
+            standardize = F)
+
+lasso.mod.cv <-
+  cv.glmnet(x,
+            x_s$y,
+            alpha = 1,
+            standardize = F)
+
+print(
+  paste(
+    "Lambda value for ridge regression that gives the best cross-validation error is:",
+    ridge.mod.cv$lambda.min,
+    "and gives MSE",
+    min(ridge.mod.cv$cvm)
+  )
+)
+
+print(
+  paste(
+    "Lambda value for lasso regression that gives the best cross-validation error is:",
+    lasso.mod.cv$lambda.min,
+    "and gives MSE",
+    min(lasso.mod.cv$cvm)
+  )
+)
+
+# Final models using optimised lambda
+ridge.final <-
+  glmnet(
+    x,
+    x_s$y,
+    alpha = 0,
+    lambda = min(ridge.mod.cv$lambda.min),
+    standardize = F
+  )
+
+lasso.final <-
+  glmnet(
+    x,
+    x_s$y,
+    alpha = 1,
+    lambda = min(lasso.mod.cv$lambda.min),
+    standardize = F
+  )
+
+x_test_s <- toy_data(500, 234)
+x_test_matrix <- model.matrix(x_test_s$y ~ ., x_test_s)[,-1]
+
+mod0_mse <- mean((x_test_s$y - predict(mod0, x_test_s)) ^ 2)
+ridge_mse <-
+  mean((x_test_s$y - predict(ridge.final, x_test_matrix)) ^ 2)
+lasso_mse <-
+  mean((x_test_s$y - predict(lasso.final, x_test_matrix)) ^ 2)
+
+
+print(paste("Linear model gives MSE:", mod0_mse))
+print(paste("Ridge model gives MSE:", ridge_mse))
+print(paste("Lasso model gives MSE:", lasso_mse))
+
+# Ridge has the coeffs closer to +1 for x1 and -1 for x2, but doesn't set x3 and x4 close enough to zero
+# Lasso knocks out the correlated and independent params, leaving just x1 and x2, relatively close to the
+# expected coefficient values
+print(ridge.final$beta)
+print(lasso.final$beta)
+
+ggplot() + geom_point(aes(x = 1:nrow(x_test_s), y = x_test_s$y - predict(mod0, x_test_s))) + 
+  geom_point(aes(x = 1:nrow(x_test_s), y = x_test_s$y - predict(ridge.final, x_test_matrix)), color = "red") + 
+  geom_point(aes(x = 1:nrow(x_test_s), y = x_test_s$y - predict(lasso.final, x_test_matrix)), color = "blue")

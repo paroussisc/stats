@@ -13,12 +13,7 @@ toy_data <- function(N, seed)
   epsilon <- rnorm(n = N)
   y <- x$x1 - x$x2 + epsilon
   x$y <- y
-  
-  
-  # scale predictors
-  x_s <- data.frame(scale(x) / sqrt(nrow(x)))
-  x_s$y <- x$y - mean(x$y)
-  return(x_s)
+  return(x)
 }
 
 
@@ -112,7 +107,7 @@ ridge.final <-
     x_s$y,
     alpha = 0,
     lambda = min(ridge.mod.cv$lambda.min),
-    standardize = F
+    standardize = T
   )
 
 lasso.final <-
@@ -121,10 +116,10 @@ lasso.final <-
     x_s$y,
     alpha = 1,
     lambda = min(lasso.mod.cv$lambda.min),
-    standardize = F
+    standardize = T
   )
 
-x_test_s <- toy_data(500, 234)
+x_test_s <- toy_data(50, 234)
 x_test_matrix <- model.matrix(x_test_s$y ~ ., x_test_s)[,-1]
 
 mod0_mse <- mean((x_test_s$y - predict(mod0, x_test_s)) ^ 2)
@@ -140,10 +135,14 @@ print(paste("Lasso model gives MSE:", lasso_mse))
 
 # Ridge has the coeffs closer to +1 for x1 and -1 for x2, but doesn't set x3 and x4 close enough to zero
 # Lasso knocks out the correlated and independent params, leaving just x1 and x2, relatively close to the
-# expected coefficient values
+# expected coefficient values.
 print(ridge.final$beta)
 print(lasso.final$beta)
 
 ggplot() + geom_point(aes(x = 1:nrow(x_test_s), y = x_test_s$y - predict(mod0, x_test_s))) + 
   geom_point(aes(x = 1:nrow(x_test_s), y = x_test_s$y - predict(ridge.final, x_test_matrix)), color = "red") + 
   geom_point(aes(x = 1:nrow(x_test_s), y = x_test_s$y - predict(lasso.final, x_test_matrix)), color = "blue")
+
+# Overall, in this example, it looks like the gains are mainly on paramter selection and inference, rather than pure prediction.
+# The MSE of the linear model isn't worse in all cases (changing the train sample size can have an effect) - large sample size
+# recovers the expected coefficients, but the linear model as lower MSE.

@@ -38,14 +38,15 @@ ridge.mod <-
     x,
     x_s$y,
     alpha = 0,
-    lambda = seq(0, 0.25, 0.01),
-    standardize = F
+    lambda = seq(0, 13.25, 0.01),
+    standardize = T,
+    intercept = F
   )
 
 # The largest coefficients are x1 and x2, but this doesn't help completely with the
 # problem of variable selection - x3's coefficient isn't close enough to zero to ignore
 tidied_cv <- tidy(ridge.mod)
-ggplot() + geom_line(data = tidied_cv, aes(x = lambda, y = estimate, color = as.factor(term)))
+ggplot() + geom_line(data = tidied_cv, aes(x = lambda, y = estimate, color = as.factor(term))) + geom_hline(yintercept = 0)
 
 
 ############  Lasso regression  ###############
@@ -54,14 +55,15 @@ lasso.mod <-
     x,
     x_s$y,
     alpha = 1,
-    lambda = seq(0, 0.05, 0.001),
-    standardize = F
+    lambda = seq(0, 0.25, 0.001),
+    standardize = T,
+    intercept = F
   )
 
 # very helpful with variable selection here - correctly identifies
 # that x3 and x4 are not as useful features
 tidied_cv <- tidy(lasso.mod)
-ggplot() + geom_line(data = tidied_cv, aes(x = lambda, y = estimate, color = as.factor(term)))
+ggplot() + geom_line(data = tidied_cv, aes(x = lambda, y = estimate, color = as.factor(term))) + geom_hline(yintercept = 0)
 
 
 ############  Prediction  ###############
@@ -129,13 +131,13 @@ lasso_mse <-
   mean((x_test_s$y - predict(lasso.final, x_test_matrix)) ^ 2)
 
 
-print(paste("Linear model gives MSE:", mod0_mse))
-print(paste("Ridge model gives MSE:", ridge_mse))
-print(paste("Lasso model gives MSE:", lasso_mse))
+print(paste("Linear model on new data gives MSE:", mod0_mse))
+print(paste("Ridge model on new data gives MSE:", ridge_mse))
+print(paste("Lasso model on new data gives MSE:", lasso_mse))
 
-# Ridge has the coeffs closer to +1 for x1 and -1 for x2, but doesn't set x3 and x4 close enough to zero
+# Ridge has the coeffs close(ish) to 1 for x1 and -1 for x2, but doesn't set x3 and x4 close enough to zero
 # Lasso knocks out the correlated and independent params, leaving just x1 and x2, relatively close to the
-# expected coefficient values.
+# expected coefficient values (more so with more training data).
 print(ridge.final$beta)
 print(lasso.final$beta)
 

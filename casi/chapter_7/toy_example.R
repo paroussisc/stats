@@ -141,10 +141,6 @@ print(paste("Lasso model on new data gives MSE:", lasso_mse))
 print(ridge.final$beta)
 print(lasso.final$beta)
 
-ggplot() + geom_point(aes(x = 1:nrow(x_test_s), y = x_test_s$y - predict(mod0, x_test_s))) + 
-  geom_point(aes(x = 1:nrow(x_test_s), y = x_test_s$y - predict(ridge.final, x_test_matrix)), color = "red") + 
-  geom_point(aes(x = 1:nrow(x_test_s), y = x_test_s$y - predict(lasso.final, x_test_matrix)), color = "blue")
-
 # Overall, in this example, it looks like the gains are mainly on paramter selection and inference, rather than pure prediction.
 # The MSE of the linear model isn't worse in all cases (changing the train sample size can have an effect) - large sample size
 # recovers the expected coefficients, but the linear model as lower MSE.

@@ -16,7 +16,6 @@ toy_data <- function(N, seed)
   return(x)
 }
 
-
 # Simulate data
 x_s <- toy_data(50, 123)
 
@@ -76,13 +75,13 @@ ridge.mod.cv <-
   cv.glmnet(x,
             x_s$y,
             alpha = 0,
-            standardize = F)
+            standardize = T)
 
 lasso.mod.cv <-
   cv.glmnet(x,
             x_s$y,
             alpha = 1,
-            standardize = F)
+            standardize = T)
 
 print(
   paste(

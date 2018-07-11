@@ -15,12 +15,12 @@ toy_data <- function(N)
   return(x)
 }
 
-# number of samples
+# repeats of samples
 S = 100
 
 # number of data points in each sample
 start_N <- 5
-N <- 50
+N <- 100
 seed <- 111
 
 coefs_ridge <- matrix(nrow = 4, ncol = S)
@@ -83,7 +83,7 @@ for (j in start_N:N)
     coefs_lasso[4, i] <- lasso.mod$beta[4]
     
     x_test_s <- toy_data(50)
-    x_test_mrix <- model.matrix(x_test_s$y ~ ., x_test_s)[, -1]
+    x_test_matrix <- model.matrix(x_test_s$y ~ ., x_test_s)[, -1]
     
     mse_linear[i] <-
       mean((x_test_s$y - predict(mod0, x_test_s)) ^ 2)

@@ -15,6 +15,9 @@ toy_data <- function(N)
   return(x)
 }
 
+# lambda method
+l_type <- "lambda.1se"
+
 # number of samples
 S = 1000
 
@@ -39,46 +42,32 @@ for (i in 1:S)
               alpha = 0,
               standardize = T)
   
-  ridge.mod <-
-    glmnet(
-      x,
-      x_s$y,
-      lambda = ridge.mod.cv$lambda.min,
-      alpha = 0,
-      standardize = T
-    )
-  coefs_ridge[1, i] <- ridge.mod$beta[1]
-  coefs_ridge[2, i] <- ridge.mod$beta[2]
-  coefs_ridge[3, i] <- ridge.mod$beta[3]
-  coefs_ridge[4, i] <- ridge.mod$beta[4]
+  c <- coef(ridge.mod.cv, s = l_type)
+  coefs_ridge[1, i] <- c[1]
+  coefs_ridge[2, i] <- c[2]
+  coefs_ridge[3, i] <- c[3]
+  coefs_ridge[4, i] <- c[4]
   
-  lasso.mod <-
+  lasso.mod.cv <-
     cv.glmnet(x,
               x_s$y,
               alpha = 1,
               standardize = T)
   
-  lasso.mod <-
-    glmnet(
-      x,
-      x_s$y,
-      lambda = ridge.mod.cv$lambda.min,
-      alpha = 1,
-      standardize = T
-    )
-  coefs_lasso[1, i] <- lasso.mod$beta[1]
-  coefs_lasso[2, i] <- lasso.mod$beta[2]
-  coefs_lasso[3, i] <- lasso.mod$beta[3]
-  coefs_lasso[4, i] <- lasso.mod$beta[4]
+  c <- coef(lasso.mod.cv, s = l_type)
+  coefs_lasso[1, i] <- c[1]
+  coefs_lasso[2, i] <- c[2]
+  coefs_lasso[3, i] <- c[3]
+  coefs_lasso[4, i] <- c[4]
   
   x_test_s <- toy_data(N)
-  x_test_mrix <- model.matrix(x_test_s$y ~ ., x_test_s)[,-1]
+  x_test_matrix <- model.matrix(x_test_s$y ~ ., x_test_s)[,-1]
   
   mse[3*i-2,]$value <- mean((x_test_s$y - predict(mod0, x_test_s)) ^ 2)
   mse[3*i-2,]$type <- 'linear'
-  mse[3*i-1,]$value <- mean((x_test_s$y - predict(ridge.mod, x_test_matrix)) ^ 2)
+  mse[3*i-1,]$value <- mean((x_test_s$y - predict(ridge.mod.cv, x_test_matrix, s = l_type)) ^ 2)
   mse[3*i-1,]$type <- 'ridge'
-  mse[3*i,]$value <- mean((x_test_s$y - predict(lasso.mod, x_test_matrix)) ^ 2)
+  mse[3*i,]$value <- mean((x_test_s$y - predict(lasso.mod.cv, x_test_matrix, s = l_type)) ^ 2)
   mse[3*i,]$type <- 'lasso'
 }
 
@@ -99,5 +88,5 @@ g <- g + facet_wrap( ~ Var1)
 g
 
 # MSE
-g <- ggplot() +  geom_density(data = mse, aes(x = value, group = type, fill = type, alpha = 0.5)) 
+g <- ggplot() +  geom_density(data = mse, aes(x = value, group = type, fill = type, alpha = 0.1)) 
 g

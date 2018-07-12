@@ -50,37 +50,23 @@ for (j in start_N:N)
                       alpha = 0,
                       standardize = T)
         
-        ridge.mod <-
-            glmnet(
-                x,
-                x_s$y,
-                lambda = ridge.mod.cv$lambda.min,
-                alpha = 0,
-                standardize = T
-            )
-        coefs_ridge[1, i] <- ridge.mod$beta[1]
-        coefs_ridge[2, i] <- ridge.mod$beta[2]
-        coefs_ridge[3, i] <- ridge.mod$beta[3]
-        coefs_ridge[4, i] <- ridge.mod$beta[4]
+        c <- coef(ridge.mod.cv, s = "lambda.min")
+        coefs_ridge[1, i] <- c[1]
+        coefs_ridge[2, i] <- c[2]
+        coefs_ridge[3, i] <- c[3]
+        coefs_ridge[4, i] <- c[4]
         
-        lasso.mod <-
+        lasso.mod.cv <-
             cv.glmnet(x,
                       x_s$y,
                       alpha = 1,
                       standardize = T)
         
-        lasso.mod <-
-            glmnet(
-                x,
-                x_s$y,
-                lambda = ridge.mod.cv$lambda.min,
-                alpha = 1,
-                standardize = T
-            )
-        coefs_lasso[1, i] <- lasso.mod$beta[1]
-        coefs_lasso[2, i] <- lasso.mod$beta[2]
-        coefs_lasso[3, i] <- lasso.mod$beta[3]
-        coefs_lasso[4, i] <- lasso.mod$beta[4]
+        c <- coef(lasso.mod.cv, s = "lambda.min")
+        coefs_lasso[1, i] <- c[1]
+        coefs_lasso[2, i] <- c[2]
+        coefs_lasso[3, i] <- c[3]
+        coefs_lasso[4, i] <- c[4]
         
         x_test_s <- toy_data(50)
         x_test_matrix <- model.matrix(x_test_s$y ~ ., x_test_s)[,-1]
@@ -88,9 +74,9 @@ for (j in start_N:N)
         mse_linear[i] <-
             mean((x_test_s$y - predict(mod0, x_test_s)) ^ 2)
         mse_ridge[i] <-
-            mean((x_test_s$y - predict(ridge.mod, x_test_matrix)) ^ 2)
+            mean((x_test_s$y - predict(ridge.mod.cv, x_test_matrix, s = "lambda.min")) ^ 2)
         mse_lasso[i] <-
-            mean((x_test_s$y - predict(lasso.mod, x_test_matrix)) ^ 2)
+            mean((x_test_s$y - predict(lasso.mod.cv, x_test_matrix, s = "lambda.min")) ^ 2)
     }
     
     mse[3 * j - 2,]$value <- mean(mse_linear)

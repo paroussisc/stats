@@ -9,6 +9,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## GLMs and Regression Trees
 
-# James-Stein Estimator
+- GLMs extend ordinary linear regression (least squares) to responses from any exponential family (gamma, Poisson, binomial etc.)
+- All the information from a $p$-parameter GLM is summarised in a $p$-parameter vector, making it still interpretable for large $N$
+- GLMs minimise the total deviance betweem the data and the params, analagous to least squares
 
 

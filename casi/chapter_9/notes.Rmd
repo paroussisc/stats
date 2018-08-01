@@ -11,4 +11,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - (For the life insurance example:) Hazard rate is the probability of dying at age $i$ given survival until age $i-1$.
 
+The EM algorithm: (Expectation-maximisation) 
+
+- Begin by filling in missing data in some way
+- Then:
+    - Maximise likelihood over filled-in data ("M" step)
+    - Replace missing values by its conditional expectation, given the non-missing data ("E" step)
+    - Repeat the EM steps until the change in parameters is sufficiently small
+  
+In exponential families the algorithm is guaranteed to converge to the MLE based on just the observed data.
 

@@ -1,0 +1,14 @@
+---
+title: "Chapter 9"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Survival Analysis and the EM Algorithm
+
+- (For the life insurance example:) Hazard rate is the probability of dying at age $i$ given survival until age $i-1$.
+
+

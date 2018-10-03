@@ -1,2 +1,2 @@
 # stats
-Repo to track the material I cover on Wednesdays
+Repo to track self-study material

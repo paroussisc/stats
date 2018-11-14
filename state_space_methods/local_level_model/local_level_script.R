@@ -1,4 +1,5 @@
 library(ggplot2)
+library(gridExtra)
 
 y_t <- data.frame(read.delim("Nile.dat"))[[1]]
 T <- nrow(data)
@@ -38,12 +39,14 @@ ggplot(data = data.frame(x = 1:T, y = a_t[2:length(a_t)], P = sqrt(P_t[2:length(
   geom_line(aes(y=qnorm(0.95, y, P)), linetype = "dashed") + 
   geom_line(aes(y=qnorm(0.025, y, P)), linetype = "dashed") 
 
-ggplot(data = data.frame(x = 1:T, y = P_t[2:length(a_t)])) +
-  geom_line(aes(x = x, y = y))
-
 ggplot(data = data.frame(x = 1:T, y = v_t[2:length(a_t)])) +
   geom_line(aes(x = x, y = y)) +
   geom_hline(yintercept = 0)
 
-ggplot(data = data.frame(x = 1:T, y = F_t[2:length(a_t)])) +
-  geom_line(aes(x = x, y = y))
+p <- ggplot(data = data.frame(x = 1:T, y = P_t[2:length(a_t)])) +
+  geom_line(aes(x = x, y = y)) + xlab("P_t")
+
+f <- ggplot(data = data.frame(x = 1:T, y = F_t[2:length(a_t)])) +
+  geom_line(aes(x = x, y = y)) + xlab("F_t")
+
+grid.arrange(p, f, ncol = 2)
